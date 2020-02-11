@@ -24,6 +24,8 @@ import com.example.fitnessapp.user.DietProcessTab;
 import com.example.fitnessapp.user.User;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.MarkerImage;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -39,11 +41,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StatusFragment extends Fragment {
+public class StatusFragment extends Fragment implements Serializable {
 
     private StatusViewModel mViewModel;
     private User user;
     private List<Date> chartDate = new ArrayList<>();
+    private List<String> chartDateString = new ArrayList<>();
     private List<Float> chartWeight = new ArrayList<>();
     private List<Float> chartAbdominal = new ArrayList<>();
     private List<Float> chartArm = new ArrayList<>();
@@ -54,6 +57,7 @@ public class StatusFragment extends Fragment {
     private TextView tvStartBodyFat;
     private TextView tvStartAbdominal;
     private TextView tvStartDate;
+    private TextView tvCurrectGoal;
 
     private LineChart graph;
 
@@ -73,6 +77,8 @@ public class StatusFragment extends Fragment {
         tvStartBodyFat = v.findViewById(R.id.statusFragment_tv_Abdominal);
         tvStartAbdominal = v.findViewById(R.id.statusFragment_tv_bodyFat);
         tvStartDate = v.findViewById(R.id.statusFragment_tv_startData2);
+        tvCurrectGoal = v.findViewById(R.id.statusFragment_tv_goal);
+
         recentData();
 
         graph = v.findViewById(R.id.statusFragment_graph);
@@ -119,6 +125,7 @@ public class StatusFragment extends Fragment {
             chartArm.add(dietProcessRaw.getArm());
             chartBodyFat.add(dietProcessRaw.getBodyFat());
             chartDate.add(dietProcessRaw.getDate());
+            chartDateString.add(dietProcessRaw.getDateString());
         }
 
     }
@@ -139,6 +146,7 @@ public class StatusFragment extends Fragment {
             }
         }
         ArrayList<Entry> dataGraph = new ArrayList<>();
+
         if (mainDataList.size() > 5) {
             for (int i = 0; i < 5; i++) {
                 dataGraph.add(new Entry(i, mainDataList.get((mainDataList.size() - 5) + i)));
@@ -159,7 +167,7 @@ public class StatusFragment extends Fragment {
         set1.setDrawFilled(true);
         set1.setFillColor(getResources().getColor(R.color.lightGreen));
         set1.setDrawValues(false);
-        set1.setDrawCircles(false);
+
 
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
@@ -167,19 +175,35 @@ public class StatusFragment extends Fragment {
         LineData data = new LineData(dataSets);
 
         graph.setData(data);
+
+
         //Background
         graph.setBackgroundColor(getResources().getColor(R.color.mainGreen));
+        //marker icon
+        MarkerImage markerImage = new MarkerImage(getContext(),R.drawable.graph_mark_image);
+        markerImage.setOffset(-18f,-18f);
+        graph.setMarker(markerImage);
 
+
+
+
+        //hide X and right Y
         graph.getXAxis().setEnabled(false);
         graph.getAxisRight().setEnabled(false);
+        graph.getAxisRight().setDrawGridLines(false);
+        graph.getXAxis().setDrawGridLines(false);
 
+
+        //hide description and map
         graph.getLegend().setEnabled(false);
         graph.getDescription().setEnabled(false);
 
-//        graph.getAxisLeft().setDrawLabels(false);
-//        graph.getAxisLeft().setDrawGridLines(false);
-//        graph.getAxisRight().setDrawGridLines(false);
-//        graph.getXAxis().setDrawGridLines(false);
+        //grid color
+        graph.getAxisLeft().setAxisLineColor(getResources().getColor(R.color.lightGreen));
+        graph.getAxisLeft().setTextColor(getResources().getColor(R.color.lightGreen));
+        graph.setGridBackgroundColor(getResources().getColor(R.color.lightGreen));
+
+
 
         graph.invalidate();
     }
@@ -189,6 +213,7 @@ public class StatusFragment extends Fragment {
         tvStartArm.setText(chartArm.get(chartArm.size()-1).toString());
         tvStartBodyFat.setText(chartBodyFat.get(chartBodyFat.size()-1).toString());
         tvStartAbdominal.setText(chartAbdominal.get(chartAbdominal.size()-1).toString());
-        tvStartDate.setText(chartDate.get(chartDate.size()-1).toString());
+        tvStartDate.setText(chartDateString.get(chartDate.size()-1));
+        tvCurrectGoal.setText(user.getGoal());
     }
 }

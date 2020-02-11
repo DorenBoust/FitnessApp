@@ -1,22 +1,25 @@
 package com.example.fitnessapp.user;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DietProcessRaw {
+public class DietProcessRaw implements Serializable {
     private Date date;
     private float weight;
     private float abdominal;
     private float arm;
     private float bodyFat;
+    private String dateString;
 
-    public DietProcessRaw(Date date, float weight, float abdominal, float arm, float bodyFat) {
+    public DietProcessRaw(Date date, float weight, float abdominal, float arm, float bodyFat, String dateString) {
         this.date = date;
         this.weight = weight;
         this.abdominal = abdominal;
         this.arm = arm;
         this.bodyFat = bodyFat;
+        this.dateString = dateString;
     }
 
     public Date getDate() {
@@ -59,6 +62,14 @@ public class DietProcessRaw {
         this.bodyFat = bodyFat;
     }
 
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
+
     @Override
     public String toString() {
         return "DietProcessRaw{" +
@@ -67,6 +78,7 @@ public class DietProcessRaw {
                 ", abdominal='" + abdominal + '\'' +
                 ", arm='" + arm + '\'' +
                 ", bodyFat='" + bodyFat + '\'' +
+                ", dateString='" + dateString + '\'' +
                 '}';
     }
 }

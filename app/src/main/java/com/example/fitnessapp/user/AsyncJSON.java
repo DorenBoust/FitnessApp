@@ -179,7 +179,7 @@ public class AsyncJSON extends AsyncTask<String, Integer, User>{
                 String bodyFatProcessString = bodyFatProcessJson.getString("c");
                 float bodyProcessDouble = Float.parseFloat(bodyFatProcessString);
 
-                DietProcessRaw dietProcessRaw = new DietProcessRaw(dateConvert,weightProcessDouble,abdominalProcessDouble,armProcessDouble,bodyProcessDouble);
+                DietProcessRaw dietProcessRaw = new DietProcessRaw(dateConvert,weightProcessDouble,abdominalProcessDouble,armProcessDouble,bodyProcessDouble, dateProcessString);
                 dietRawList.add(dietProcessRaw);
 
             }

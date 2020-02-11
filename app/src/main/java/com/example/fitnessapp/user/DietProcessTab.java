@@ -1,8 +1,9 @@
 package com.example.fitnessapp.user;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DietProcessTab {
+public class DietProcessTab implements Serializable {
     private List<DietProcessRaw> ProcessTable;
 
     public DietProcessTab(List<DietProcessRaw> processTable) {

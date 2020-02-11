@@ -1,6 +1,8 @@
 package com.example.fitnessapp.user;
 
-public class Exercise {
+import java.io.Serializable;
+
+public class Exercise implements Serializable {
     private String exName;
     private int sets;
     private String repitition;
